@@ -148,7 +148,7 @@
             cell.posterView.alpha = 0.0;
             cell.posterView.image = image;
             
-            [UIView animateWithDuration:3 animations:^{
+            [UIView animateWithDuration:2 animations:^{
                 cell.posterView.alpha = 1.0;
             }];
         
@@ -195,7 +195,7 @@
     // Pass the selected object to the new view controller.
     UITableViewCell *tappedCell = sender;
     NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
-    NSDictionary *movie = self.movies[indexPath.row];
+    NSDictionary *movie = self.filteredData[indexPath.row];
     
     DetailsViewController *detailsViewController = [segue destinationViewController];
     detailsViewController.movie = movie; 

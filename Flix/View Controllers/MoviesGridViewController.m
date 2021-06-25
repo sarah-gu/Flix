@@ -8,6 +8,7 @@
 #import "MoviesGridViewController.h"
 #import "SVProgressHUD.h"
 #import "MovieCollectionCell.h"
+#import "DetailsViewController.h"
 #import "UIImageView+AFNetworking.h"
 @interface MoviesGridViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -77,6 +78,20 @@
 }
 */
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+    UICollectionViewCell *tappedCell = sender;
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:tappedCell];
+    NSDictionary *movie = self.filteredData[indexPath.row];
+    
+    DetailsViewController *detailsViewController = [segue destinationViewController];
+    detailsViewController.movie = movie;
+    //NSLog(@"Tapping on a movie!");
+    
+}
+
+
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
     
     MovieCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MovieCollectionCell" forIndexPath:indexPath];
@@ -86,9 +101,28 @@
     NSString *fullPosterURLString = [baseURLString stringByAppendingString:posterURLString];
     
     NSURL *posterURL = [NSURL URLWithString:fullPosterURLString];
+    NSURLRequest *request = [NSURLRequest requestWithURL:posterURL];
     cell.posterView.image = nil;
     
-    [cell.posterView setImageWithURL:posterURL];
+   // [cell.posterView setImageWithURL:posterURL];
+    [cell.posterView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *  imageRequest, NSHTTPURLResponse * imageResponse, UIImage * image) {
+        if(imageResponse){
+            cell.posterView.alpha = 0.0;
+            cell.posterView.image = image;
+            
+            [UIView animateWithDuration:2 animations:^{
+                cell.posterView.alpha = 1.0;
+            }];
+        
+        }
+        else{
+            cell.posterView.image = image;
+        }
+    } failure:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, NSError * _Nonnull error) {
+        NSLog(@"Error in image request");
+    }];
+    
+    //[cell.posterView setImageWithURL:posterURL];
     
     return cell;
 }
