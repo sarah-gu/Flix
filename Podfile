@@ -8,6 +8,7 @@ target 'Flix' do
   # Pods for Flix
   pod 'AFNetworking'
   pod 'SVProgressHUD'
+  pod 'CCDropDownMenus'
 
   target 'FlixTests' do
     inherit! :search_paths

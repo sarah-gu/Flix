@@ -22,21 +22,23 @@ The following **optional** features are implemented:
 - [X] User can search for a movie.
 - [X] All images fade in as they are loading.
 - [ ] User can view the large movie poster by tapping on a cell.
-- [ ] For the large poster, load the low resolution image first and then switch to the high resolution image when complete.
+- [X] For the large poster, load the low resolution image first and then switch to the high resolution image when complete.
 - [ ] Customize the selection effect of the cell.
-- [ ] Customize the navigation bar.
+- [X] Customize the navigation bar.
 - [ ] Customize the UI.
 - [ ] User can view the app on various device sizes and orientations.
 - [X] Run your app on a real device.
 
 The following **additional** features are implemented:
 
-- [ ] List anything else that you can get done to improve the app functionality!
+- [X] Adding genre information under each movie card
+- [X] Allowing for a search by genre feature in the movie poster view 
+- [X] Adding a rating feature in the DetailViewCard
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1.
-2.
+1. Adding a dropdown menu type navigation bar instead of scrolling
+2. Having a related movies feature
 
 ## Video Walkthrough
 

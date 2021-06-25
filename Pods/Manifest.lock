@@ -14,21 +14,25 @@ PODS:
   - AFNetworking/Serialization (4.0.1)
   - AFNetworking/UIKit (4.0.1):
     - AFNetworking/NSURLSession
+  - CCDropDownMenus (0.1.2)
   - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
   - AFNetworking
+  - CCDropDownMenus
   - SVProgressHUD
 
 SPEC REPOS:
   trunk:
     - AFNetworking
+    - CCDropDownMenus
     - SVProgressHUD
 
 SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
+  CCDropDownMenus: ee65b63286a16354907fdde49c40c1817f463470
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: 990fa4d318615685df790376512f6342e22fe9f8
+PODFILE CHECKSUM: 8eb919ef1fe49e40210f2c1320910e10181ff584
 
 COCOAPODS: 1.10.1

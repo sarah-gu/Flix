@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *posterView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *synopsisLabel;
+@property (weak, nonatomic) IBOutlet UILabel *ratingLabel;
 
 
 @end
@@ -38,9 +39,11 @@
     
     self.titleLabel.text = self.movie[@"title"];
     self.synopsisLabel.text = self.movie[@"overview"];
+    self.ratingLabel.text = [NSString stringWithFormat:@"%@ / 10 from %@ reviews", self.movie[@"vote_average"], self.movie[@"vote_count"]];
     
     [self.titleLabel sizeToFit];
     [self.synopsisLabel sizeToFit];
+    [self.ratingLabel sizeToFit];
 }
 
 /*

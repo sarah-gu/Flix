@@ -131,44 +131,99 @@
     NSDictionary *movie = self.filteredData[indexPath.row];
     cell.titleLabel.text = movie[@"title"];
     cell.synopsisLabel.text = movie[@"overview"];
+    NSDictionary *genres = @{@28:@"Action", @12:@"Adventure", @16:@"Animation",@35:@"Comedy", @80:@"Crime", @99:@"Documentary", @18:@"Drama", @10751:@"Family", @14:@"Fantasy", @36:@"History",@27:@"Horror",@10402:@"Music",@9648:@"Mystery", @10749:@"Romance", @878:@"Science Fiction", @10770:@"TV Movie", @53:@"Thriller",   @10752:@"War", @37:@"Western"   };
+    
+    NSArray *movieGenres = movie[@"genre_ids" ];
+    cell.genreLabel.text = @""; 
+    for (id myGenre in movieGenres){
+        NSString *named_genre = genres[myGenre];
+        cell.genreLabel.text = [cell.genreLabel.text stringByAppendingFormat:@"%@, ", named_genre];
+    }
   //  cell.textLabel.text = movie[@"title"];
-    
-    NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
+    NSString *baseURLString_high = @"https://image.tmdb.org/t/p/original";
     NSString *posterURLString = movie[@"poster_path"];
-    NSString *fullPosterURLString = [baseURLString stringByAppendingString:posterURLString];
+    NSString *fullPosterURLString_high = [baseURLString_high stringByAppendingString:posterURLString];
     
-    NSURL *posterURL = [NSURL URLWithString:fullPosterURLString];
+    NSURL *posterURL_high = [NSURL URLWithString:fullPosterURLString_high];
+    NSURLRequest *request_high = [NSURLRequest requestWithURL:posterURL_high];
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:posterURL];
+    NSString *baseURLString_low = @"https://image.tmdb.org/t/p/w45";
+    NSString *fullPosterURLString_low = [baseURLString_low stringByAppendingString:posterURLString];
+    NSURL *posterURL_low = [NSURL URLWithString:fullPosterURLString_low];
+    NSURLRequest *request_low = [NSURLRequest requestWithURL:posterURL_low];
+    
     cell.posterView.image = nil;
     
-   // [cell.posterView setImageWithURL:posterURL];
-    [cell.posterView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *  imageRequest, NSHTTPURLResponse * imageResponse, UIImage * image) {
-        if(imageResponse){
+    [cell.posterView setImageWithURLRequest:request_low placeholderImage:nil success:^(NSURLRequest *  imageRequest, NSHTTPURLResponse * imageResponse, UIImage * smallImage) {
+        if(imageResponse != nil){
             cell.posterView.alpha = 0.0;
-            cell.posterView.image = image;
+            cell.posterView.image = smallImage;
             
-            [UIView animateWithDuration:2 animations:^{
+            [UIView animateWithDuration:0.3 animations:^{
                 cell.posterView.alpha = 1.0;
+            } completion:^(BOOL finished){
+                [cell.posterView setImageWithURLRequest:request_high
+                                       placeholderImage:smallImage
+                                                success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *largeImage){
+                    cell.posterView.image = largeImage;
+                }
+                                                failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error){
+                    NSLog(@"Error in image request");
+                }];
             }];
         
         }
         else{
-            cell.posterView.image = image;
+            [cell.posterView setImageWithURLRequest:request_high
+                                   placeholderImage:smallImage
+                                            success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *largeImage){
+                cell.posterView.image = largeImage;
+            }
+                                            failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error){
+                NSLog(@"Error in image request");
+            }];
         }
     } failure:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, NSError * _Nonnull error) {
         NSLog(@"Error in image request");
     }];
     
+    
+//    NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
+//    NSString *posterURLString = movie[@"poster_path"];
+//    NSString *fullPosterURLString = [baseURLString stringByAppendingString:posterURLString];
+//
+//    NSURL *posterURL = [NSURL URLWithString:fullPosterURLString];
+//
+//    NSURLRequest *request = [NSURLRequest requestWithURL:posterURL];
+//    cell.posterView.image = nil;
+//
+//   // [cell.posterView setImageWithURL:posterURL];
+//    [cell.posterView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *  imageRequest, NSHTTPURLResponse * imageResponse, UIImage * image) {
+//        if(imageResponse){
+//            cell.posterView.alpha = 0.0;
+//            cell.posterView.image = image;
+//
+//            [UIView animateWithDuration:2 animations:^{
+//                cell.posterView.alpha = 1.0;
+//            }];
+//
+//        }
+//        else{
+//            cell.posterView.image = image;
+//        }
+//    } failure:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, NSError * _Nonnull error) {
+//        NSLog(@"Error in image request");
+//    }];
+//
     return cell;
 }
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(nonnull NSString *)searchText{
     if(searchText.length != 0){
-       // NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(NSString *evaluatedObject, NSDictionary *bindings){
-         //   return [evaluatedObject containsString:searchText];
-        //}];
+       NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(NSDictionary *evaluatedObject, NSDictionary *bindings){
+            return [evaluatedObject[@"title"] containsString:searchText];
+       }];
         
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(title CONTAINS[cd] %@)", searchText];
+       // NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(title CONTAINS[cd] %@)", searchText];
         self.filteredData = [self.movies filteredArrayUsingPredicate:predicate];
     }
     else{
