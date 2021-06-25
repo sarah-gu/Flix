@@ -44,14 +44,13 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+![Flix Demo](https://github.com/sarah-gu/Flix/blob/main/Flix.gif)
 
-GIF created with [Kap](https://getkap.co/).
+GIF created with [EZGif](https://ezgif.com).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
-
+I encountered a challenge with the genre searching portion of the app - I had to learn about the NSPredicate classes and how to implement the Search Bar feature in order to get those queries to come up. I also spent some time trying to add a custom Pod class to have a drop down menu, but was unfortunately unable to get the custom class to work with XCode (potentially an outdated package). 
 ## Credits
 
 List an 3rd party libraries, icons, graphics, or other assets you used in your app.
