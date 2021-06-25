@@ -48,6 +48,18 @@ Here's a walkthrough of implemented user stories:
 
 GIF created with [EZGif](https://ezgif.com).
 
+Image of all movie listings: 
+![all movies](https://github.com/sarah-gu/Flix/blob/main/allmovies.PNG)
+
+Image of title search: 
+![title search](https://github.com/sarah-gu/Flix/blob/main/titlesearch.PNG)
+
+Image of genre search: 
+![genre search](https://github.com/sarah-gu/Flix/blob/main/genresearch.PNG)
+
+Image of Detail View: 
+![detail view ](https://github.com/sarah-gu/Flix/blob/main/detailview.PNG)
+
 ## Notes
 
 I encountered a challenge with the genre searching portion of the app - I had to learn about the NSPredicate classes and how to implement the Search Bar feature in order to get those queries to come up. I also spent some time trying to add a custom Pod class to have a drop down menu, but was unfortunately unable to get the custom class to work with XCode (potentially an outdated package). 
