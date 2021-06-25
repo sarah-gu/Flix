@@ -56,7 +56,7 @@ I encountered a challenge with the genre searching portion of the app - I had to
 List an 3rd party libraries, icons, graphics, or other assets you used in your app.
 
 - [AFNetworking](https://github.com/AFNetworking/AFNetworking) - networking task library
-
+- SVProgressHUB - loading icon for network requets
 ## License
 
     Copyright [2021] [Sarah Gu]
