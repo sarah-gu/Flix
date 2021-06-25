@@ -13,9 +13,11 @@
 #import "SVProgressHUD.h"
 
 @interface MoviesViewController () <UITableViewDataSource, UITableViewDelegate>
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *movies;
+@property (nonatomic, strong) NSArray *filteredData;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
@@ -32,7 +34,7 @@
         {
             self.tableView.dataSource = self;
             self.tableView.delegate = self;
-            
+            self.searchBar.delegate = self;
             [SVProgressHUD show];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 [self fetchMovies];
@@ -57,6 +59,7 @@
     
 
 }
+
 
 - (void)alertControl {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error" message:@"Unable to Load Content" preferredStyle:(UIAlertControllerStyleAlert)];
@@ -101,6 +104,7 @@
                NSLog(@"%@", dataDictionary);
                
                self.movies = dataDictionary[@"results"];
+               self.filteredData = self.movies;
                for (NSDictionary *movie in self.movies){
                    NSLog(@"%@", movie[@"title"]);
                }
@@ -115,7 +119,7 @@
     [task resume];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.movies.count;
+    return self.filteredData.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -123,7 +127,8 @@
     //UITableViewCell *cell = [[UITableViewCell alloc] init];
     
     //NSLog(@"%@", [NSString stringWithFormat:@"row: %d, section %d", indexPath.row, indexPath.section]);
-    NSDictionary *movie = self.movies[indexPath.row];
+    //NSDictionary *movie = self.movies[indexPath.row];
+    NSDictionary *movie = self.filteredData[indexPath.row];
     cell.titleLabel.text = movie[@"title"];
     cell.synopsisLabel.text = movie[@"overview"];
   //  cell.textLabel.text = movie[@"title"];
@@ -138,6 +143,20 @@
     [cell.posterView setImageWithURL:posterURL];
     
     return cell;
+}
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(nonnull NSString *)searchText{
+    if(searchText.length != 0){
+       // NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(NSString *evaluatedObject, NSDictionary *bindings){
+         //   return [evaluatedObject containsString:searchText];
+        //}];
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(title CONTAINS[cd] %@)", searchText];
+        self.filteredData = [self.movies filteredArrayUsingPredicate:predicate];
+    }
+    else{
+        self.filteredData = self.movies;
+    }
+    [self.tableView reloadData];
 }
 
 #pragma mark - Navigation

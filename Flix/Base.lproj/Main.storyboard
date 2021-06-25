@@ -17,9 +17,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" text="" id="rGv-ft-zMH">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MovieCell" rowHeight="194" id="XPc-bA-NhP" customClass="MovieCell">
-                                <rect key="frame" x="0.0" y="24.5" width="414" height="194"/>
+                                <rect key="frame" x="0.0" y="68.5" width="414" height="194"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XPc-bA-NhP" id="33j-QK-bOA">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="194"/>
@@ -57,6 +62,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Movies" id="5PR-Yo-7H9"/>
                     <connections>
+                        <outlet property="searchBar" destination="rGv-ft-zMH" id="0t2-Rk-qei"/>
                         <outlet property="tableView" destination="vI7-8f-BAb" id="aXF-mL-9ML"/>
                     </connections>
                 </viewController>
@@ -183,7 +189,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="EWT-5H-iyw">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="128" width="414" height="768"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="ZrG-QT-paV">
@@ -201,7 +207,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tev-KJ-x64">
-                                                    <rect key="frame" x="0.0" y="0.0" width="159" height="232"/>
+                                                    <rect key="frame" x="0.0" y="-2" width="159" height="232"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </imageView>
                                             </subviews>
@@ -213,6 +219,11 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <searchBar contentMode="redraw" fixedFrame="YES" text="" translatesAutoresizingMaskIntoConstraints="NO" id="adN-U2-mBq">
+                                <rect key="frame" x="0.0" y="87" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="e6y-1s-ezO"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -220,6 +231,7 @@
                     <navigationItem key="navigationItem" id="bZf-2V-Ye4"/>
                     <connections>
                         <outlet property="collectionView" destination="EWT-5H-iyw" id="tm7-Ai-Jqa"/>
+                        <outlet property="searchBar" destination="adN-U2-mBq" id="4Ff-C5-faO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DVm-4y-St0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

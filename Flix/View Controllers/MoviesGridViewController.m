@@ -13,6 +13,8 @@
 
 @property (nonatomic, strong) NSArray *movies;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (strong, nonatomic) NSArray *filteredData;
 @end
 
 @implementation MoviesGridViewController
@@ -21,7 +23,12 @@
     [super viewDidLoad];
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
-    [self fetchMovies];
+    self.searchBar.delegate = self;
+    [SVProgressHUD show];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self fetchMovies];
+    });
+    
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *) self.collectionView.collectionViewLayout;
     
     layout.minimumInteritemSpacing = 5;
@@ -51,6 +58,7 @@
                
                
                self.movies = dataDictionary[@"results"];
+               self.filteredData = self.movies;
                [self.collectionView reloadData];
                // TODO: Get the array of movies
                // TODO: Store the movies in a property to use elsewhere
@@ -72,7 +80,7 @@
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
     
     MovieCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MovieCollectionCell" forIndexPath:indexPath];
-    NSDictionary *movie = self.movies[indexPath.item];
+    NSDictionary *movie = self.filteredData[indexPath.item];
     NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
     NSString *posterURLString = movie[@"poster_path"];
     NSString *fullPosterURLString = [baseURLString stringByAppendingString:posterURLString];
@@ -86,8 +94,21 @@
 }
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.movies.count;
+    return self.filteredData.count;
 }
 
-
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(nonnull NSString *)searchText{
+    if(searchText.length != 0){
+       // NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(NSString *evaluatedObject, NSDictionary *bindings){
+         //   return [evaluatedObject containsString:searchText];
+        //}];
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(title CONTAINS[cd] %@)", searchText];
+        self.filteredData = [self.movies filteredArrayUsingPredicate:predicate];
+    }
+    else{
+        self.filteredData = self.movies;
+    }
+    [self.collectionView reloadData];
+}
 @end
